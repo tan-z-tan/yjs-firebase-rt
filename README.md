@@ -25,11 +25,11 @@ Firebase Realtime Database 上で以下のようなデータ構造を持ちま�
 
 ```mermaid
 graph TD
-    Client[Client (Yjs)]
-    subgraph Firebase Realtime Database
-        Updates[updates/ (Append-only Log)]
-        Snapshots[snapshots/ (Full State)]
-        Meta[meta/ (Latest Snapshot ID)]
+    Client["Client (Yjs)"]
+    subgraph FirebaseDB ["Firebase Realtime Database"]
+        Updates["updates/ (Append-only Log)"]
+        Snapshots["snapshots/ (Full State)"]
+        Meta["meta/ (Latest Snapshot ID)"]
     end
 
     Client -->|Push updates| Updates
