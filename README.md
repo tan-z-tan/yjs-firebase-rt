@@ -23,6 +23,23 @@ Firebase Realtime Database 上で以下のようなデータ構造を持ちま�
 *   **`snapshots/`**: ある時点までの全更新を適用した完全な状態 (`Y.encodeStateAsUpdate`)。
 *   **`meta/`**: 最新のスナップショット ID などを管理。
 
+```mermaid
+graph TD
+    Client[Client (Yjs)]
+    subgraph Firebase Realtime Database
+        Updates[updates/ (Append-only Log)]
+        Snapshots[snapshots/ (Full State)]
+        Meta[meta/ (Latest Snapshot ID)]
+    end
+
+    Client -->|Push updates| Updates
+    Updates -.->|onChildAdded| Client
+    Client -->|Load initial state| Snapshots
+    Client -->|Load missing updates| Updates
+    Client -->|Save snapshot| Snapshots
+    Client -->|Update ID| Meta
+```
+
 クライアントは初期化時に「最新のスナップショット」＋「それ以降の差分」を取得して状態を復元し、以降は `onChildAdded` でリアルタイムに差分を受信・適用します。
 
 ## 機能
